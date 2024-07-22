@@ -1,11 +1,36 @@
-package utils
+package bypass
 
 import (
 	"crypto/tls"
-	"net/http"
-
 	browser "github.com/EDDYCJY/fake-useragent"
+	"net/http"
 )
+
+// Options the option to set custom headers
+type Options struct {
+	AddMissingHeaders bool
+	Headers           map[string]string
+}
+
+// AddCloudFlareByPass returns a round tripper adding the required headers for the CloudFlare checks
+// and updates the TLS configuration of the passed inner transport.
+func AddCloudFlareByPass(inner http.RoundTripper, options ...Options) http.RoundTripper {
+	if trans, ok := inner.(*http.Transport); ok {
+		trans.TLSClientConfig = getCloudFlareTLSConfiguration()
+	}
+
+	roundTripper := &cloudFlareRoundTripper{
+		inner: inner,
+	}
+
+	if options != nil && len(options) > 0 {
+		roundTripper.options = options[0]
+	} else {
+		roundTripper.options = getDefaultOptions()
+	}
+
+	return roundTripper
+}
 
 // RoundTrip adds the required request headers to pass CloudFlare checks.
 func (ug *cloudFlareRoundTripper) RoundTrip(r *http.Request) (*http.Response, error) {
@@ -35,8 +60,8 @@ func getCloudFlareTLSConfiguration() *tls.Config {
 	}
 }
 
-// GetDefaultOptions returns the options set by default
-func GetDefaultOptions() Options {
+// getDefaultOptions returns the options set by default
+func getDefaultOptions() Options {
 	return Options{
 		AddMissingHeaders: true,
 		Headers: map[string]string{
@@ -51,30 +76,4 @@ func GetDefaultOptions() Options {
 type cloudFlareRoundTripper struct {
 	inner   http.RoundTripper
 	options Options
-}
-
-// Options the option to set custom headers
-type Options struct {
-	AddMissingHeaders bool
-	Headers           map[string]string
-}
-
-// AddCloudFlareByPass returns a round tripper adding the required headers for the CloudFlare checks
-// and updates the TLS configuration of the passed inner transport.
-func AddCloudFlareByPass(inner http.RoundTripper, options ...Options) http.RoundTripper {
-	if trans, ok := inner.(*http.Transport); ok {
-		trans.TLSClientConfig = getCloudFlareTLSConfiguration()
-	}
-
-	roundTripper := &cloudFlareRoundTripper{
-		inner: inner,
-	}
-
-	if options != nil {
-		roundTripper.options = options[0]
-	} else {
-		roundTripper.options = GetDefaultOptions()
-	}
-
-	return roundTripper
 }
