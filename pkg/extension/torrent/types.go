@@ -41,6 +41,10 @@ type (
 		EpisodeCount *int `json:"episodeCount,omitempty"`
 		// StartDate of the media.
 		StartDate *FuzzyDate `json:"startDate,omitempty"`
+		// Absolute offset of the media's season.
+		AbsoluteSeasonOffset *int `json:"absoluteSeasonOffset,omitempty"`
+		// All alternative titles of the media.
+		Synonyms []string `json:"synonyms"`
 		// Whether the media is NSFW.
 		IsAdult bool `json:"isAdult"`
 	}
@@ -112,7 +116,7 @@ type (
 		IsBatch bool `json:"isBatch,omitempty"`
 		// Episode number of the torrent.
 		// This can be inferred from the query.
-		// Leave it as 0 if unknown.
+		// Return -1 if unknown.
 		EpisodeNumber int `json:"episodeNumber,omitempty"`
 		// Release group of the torrent.
 		// Leave empty if unknown.
