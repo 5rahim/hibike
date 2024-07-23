@@ -30,23 +30,28 @@ type (
 		// MyAnimeList ID of the media.
 		IDMal *int `json:"idMal,omitempty"`
 		// e.g. "FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"
-		Status *string `json:"status,omitempty"`
+		// This should be set to "NOT_YET_RELEASED" if the status is unknown.
+		Status string `json:"status,omitempty"`
 		// e.g. "TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC"
-		Format *string `json:"format,omitempty"`
+		// This should be set to "TV" if the format is unknown.
+		Format string `json:"format,omitempty"`
 		// e.g. "Attack on Titan"
 		EnglishTitle *string `json:"englishTitle,omitempty"`
 		// e.g. "Shingeki no Kyojin"
-		RomajiTitle *string `json:"romajiTitle,omitempty"`
+		RomajiTitle string `json:"romajiTitle,omitempty"`
 		// TotalEpisodes returns the total number of episodes of the media.
-		EpisodeCount *int `json:"episodeCount,omitempty"`
-		// StartDate of the media.
-		StartDate *FuzzyDate `json:"startDate,omitempty"`
+		// This should be set to -1 if the total number of episodes is unknown.
+		EpisodeCount int `json:"episodeCount,omitempty"`
 		// Absolute offset of the media's season.
-		AbsoluteSeasonOffset *int `json:"absoluteSeasonOffset,omitempty"`
+		// This should be set to 0 if the media is not seasonal or the offset is unknown.
+		AbsoluteSeasonOffset int `json:"absoluteSeasonOffset,omitempty"`
 		// All alternative titles of the media.
 		Synonyms []string `json:"synonyms"`
 		// Whether the media is NSFW.
 		IsAdult bool `json:"isAdult"`
+		// StartDate of the media.
+		// This should be nil if it has no start data.
+		StartDate *FuzzyDate `json:"startDate,omitempty"`
 	}
 
 	FuzzyDate struct {
