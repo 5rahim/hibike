@@ -9,6 +9,8 @@ type (
 		// FindEpisodeServer returns the episode server for the given episode.
 		// "server" can be "default"
 		FindEpisodeServer(episode *EpisodeDetails, server string) (*EpisodeServer, error)
+		// GetEpisodeServers returns the list of servers from the provider.
+		GetEpisodeServers() []string
 	}
 
 	SearchResult struct {
