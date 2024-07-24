@@ -80,8 +80,6 @@ type (
 		Media Media
 		// User query
 		Query string `json:"query"`
-		// Indicates if the search is for a batch torrent.
-		Batch bool `json:"batch"`
 	}
 
 	AnimeSmartSearchOptions struct {
