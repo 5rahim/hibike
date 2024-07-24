@@ -15,6 +15,8 @@ type (
 		// GetTorrentMagnetLink returns the magnet link of the torrent.
 		// This should just return the magnet link without scraping the torrent page if already available.
 		GetTorrentMagnetLink(torrent *AnimeTorrent) (string, error)
+		// GetLatest returns the latest torrents.
+		GetLatest() ([]*AnimeTorrent, error)
 		// CanSmartSearch returns true if the provider supports smart search.
 		// i.e. Searching related torrents without direct user query, based on the media.
 		CanSmartSearch() bool
