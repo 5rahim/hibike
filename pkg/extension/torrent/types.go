@@ -3,12 +3,23 @@ package torrent
 // Resolutions represent resolution filters available to the user.
 var Resolutions = []string{"1080", "720", "540", "480"}
 
+const (
+	// AnimeProviderTypeMain providers can be used as default providers.
+	AnimeProviderTypeMain AnimeProviderType = "main"
+	// AnimeProviderTypeSpecial providers cannot be set as default provider.
+	// Providers that return only specific content (e.g. adult content).
+	// These providers should not return anything from "GetLatest".
+	AnimeProviderTypeSpecial AnimeProviderType = "special"
+)
+
 type (
-	Provider interface {
+	AnimeProviderType string
+
+	AnimeProvider interface {
 		// Search for torrents.
-		Search(opts SearchOptions) ([]*AnimeTorrent, error)
+		Search(opts AnimeSearchOptions) ([]*AnimeTorrent, error)
 		// SmartSearch for torrents.
-		SmartSearch(opts SmartSearchOptions) ([]*AnimeTorrent, error)
+		SmartSearch(opts AnimeSmartSearchOptions) ([]*AnimeTorrent, error)
 		// GetTorrentInfoHash returns the info hash of the torrent.
 		// This should just return the info hash without scraping the torrent page if already available.
 		GetTorrentInfoHash(torrent *AnimeTorrent) (string, error)
@@ -24,6 +35,8 @@ type (
 		CanFindBestRelease() bool
 		// SupportsAdult returns true if the provider supports searching for adult content.
 		SupportsAdult() bool
+		// GetType returns the provider type.
+		GetType() AnimeProviderType
 	}
 
 	Media struct {
@@ -62,8 +75,8 @@ type (
 		Day   *int `json:"day"`
 	}
 
-	// SearchOptions represents the options to search for torrents without filters.
-	SearchOptions struct {
+	// AnimeSearchOptions represents the options to search for torrents without filters.
+	AnimeSearchOptions struct {
 		Media Media
 		// User query
 		Query string `json:"query"`
@@ -71,7 +84,7 @@ type (
 		Batch bool `json:"batch"`
 	}
 
-	SmartSearchOptions struct {
+	AnimeSmartSearchOptions struct {
 		Media Media `json:"media"`
 		// Optional user query
 		Query string `json:"query"`
