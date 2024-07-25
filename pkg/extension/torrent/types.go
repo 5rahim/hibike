@@ -12,8 +12,25 @@ const (
 	AnimeProviderTypeSpecial AnimeProviderType = "special"
 )
 
+const (
+	AnimeProviderSmartSearchFilterBatch         AnimeProviderSmartSearchFilter = "batch"
+	AnimeProviderSmartSearchFilterEpisodeNumber AnimeProviderSmartSearchFilter = "episodeNumber"
+	AnimeProviderSmartSearchFilterResolution    AnimeProviderSmartSearchFilter = "resolution"
+	AnimeProviderSmartSearchFilterQuery         AnimeProviderSmartSearchFilter = "query"
+	AnimeProviderSmartSearchFilterBestReleases  AnimeProviderSmartSearchFilter = "bestReleases"
+)
+
 type (
 	AnimeProviderType string
+
+	AnimeProviderSmartSearchFilter string
+
+	AnimeProviderSettings struct {
+		CanSmartSearch     bool                             `json:"canSmartSearch"`
+		SmartSearchFilters []AnimeProviderSmartSearchFilter `json:"smartSearchFilters"`
+		SupportsAdult      bool                             `json:"supportsAdult"`
+		Type               AnimeProviderType                `json:"type"`
+	}
 
 	AnimeProvider interface {
 		// Search for torrents.
@@ -28,15 +45,8 @@ type (
 		GetTorrentMagnetLink(torrent *AnimeTorrent) (string, error)
 		// GetLatest returns the latest torrents.
 		GetLatest() ([]*AnimeTorrent, error)
-		// CanSmartSearch returns true if the provider supports smart search.
-		// i.e. Searching related torrents without direct user query, based on the media.
-		CanSmartSearch() bool
-		// CanFindBestRelease returns true if the provider supports finding the best release.
-		CanFindBestRelease() bool
-		// SupportsAdult returns true if the provider supports searching for adult content.
-		SupportsAdult() bool
-		// GetType returns the provider type.
-		GetType() AnimeProviderType
+		// GetSettings returns the provider settings.
+		GetSettings() AnimeProviderSettings
 	}
 
 	Media struct {
