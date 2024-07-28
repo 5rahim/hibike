@@ -8,8 +8,10 @@ type (
 	}
 
 	SearchOptions struct {
-		Query string
-		Year  int
+		Query string `json:"query"`
+		// Year is the year the manga was released.
+		// It will be 0 if the year is not available.
+		Year int `json:"year"`
 	}
 
 	SearchResult struct {
