@@ -16,16 +16,13 @@ type (
 		// GetPlaybackStatus should return the current playback status when called.
 		// It should return an error if the playback status could not be retrieved, this will cancel progress tracking.
 		GetPlaybackStatus() (PlaybackStatus, error)
-		// Stop will be called whenever the progress tracking context is canceled.
-		Stop() error
 	}
 
 	ClientInfo struct {
 		UserAgent string `json:"userAgent"`
-		IsMobile  bool   `json:"isMobile"`
-		IsTablet  bool   `json:"isTablet"`
-		IsDesktop bool   `json:"isDesktop"`
-		IsTV      bool   `json:"isTV"`
+		// Platform is the operating system of the client.
+		// It "will be one of the following: "windows", "mac", "linux", "android", "ios", "tvos", "webos", "tizen"
+		Platform string `json:"platform"`
 	}
 
 	PlayRequest struct {
