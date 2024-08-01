@@ -5,10 +5,16 @@ import "github.com/5rahim/hibike/pkg/extension"
 type (
 	// MediaPlayer is the interface that wraps the basic media player methods.
 	MediaPlayer interface {
+		// Start is called before the media player is used.
 		Start() error
+		// Play should start playing the media from the given path.
 		Play(path string) error
-		Stream(path string) error
+		// Stream should start streaming the media from the given URL.
+		Stream(url string) error
+		// GetPlaybackStatus should return the current playback status when called.
+		// It should return an error if the playback status could not be retrieved, this will cancel progress tracking.
 		GetPlaybackStatus() (PlaybackStatus, error)
+		// Stop will be called when the progress tracking context is canceled.
 		Stop() error
 		GetSettings() Settings
 		GetSettingInputs() []extension.SettingInput
