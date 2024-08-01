@@ -9,13 +9,15 @@ type (
 		GetSettings() Settings
 		// Start is called before the media player is used.
 		Start() error
+		// Stop is called when the media player is no longer needed.
+		Stop() error
 		// Play should start playing the media from the given path.
-		Play(req PlayRequest) (PlayResponse, error)
+		Play(req PlayRequest) (*PlayResponse, error)
 		// Stream should start streaming the media from the given URL.
-		Stream(req PlayRequest) (PlayResponse, error)
+		Stream(req PlayRequest) (*PlayResponse, error)
 		// GetPlaybackStatus should return the current playback status when called.
 		// It should return an error if the playback status could not be retrieved, this will cancel progress tracking.
-		GetPlaybackStatus() (PlaybackStatus, error)
+		GetPlaybackStatus() (*PlaybackStatus, error)
 	}
 
 	ClientInfo struct {
