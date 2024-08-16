@@ -120,6 +120,9 @@ type (
 	}
 
 	AnimeTorrent struct {
+		// "ID" of the extension.
+		Provider string `json:"provider,omitempty"`
+		// Title of the torrent.
 		Name string `json:"name"`
 		// Date of the torrent.
 		// The date should have RFC3339 format. e.g. "2006-01-02T15:04:05Z07:00"
@@ -158,8 +161,6 @@ type (
 		// Release group of the torrent.
 		// Leave this empty if you want Seanime to parse the release group from the name.
 		ReleaseGroup string `json:"releaseGroup,omitempty"`
-		// Provider should be the extension ID.
-		Provider string `json:"provider,omitempty"`
 		// Set this to true if you can confirm that the torrent is the best release.
 		IsBestRelease bool `json:"isBestRelease"`
 		// Set this to true if you can confirm that the torrent matches the anime the user is searching for.

@@ -1,10 +1,33 @@
 package manga
 
+const (
+	ChapterFilterLanguage ChapterFilter = "language"
+	ChapterFilterGroup    ChapterFilter = "group"
+)
+
 type (
+	ChapterFilter string
+
+	SelectOption struct {
+		Value string `json:"value"`
+		Label string `json:"label"`
+	}
+
 	Provider interface {
+		// Search returns the search results for the given query.
 		Search(opts SearchOptions) ([]*SearchResult, error)
+		// FindChapters returns the chapter details for the given manga ID.
 		FindChapters(id string) ([]*ChapterDetails, error)
+		// FindChapterPages returns the chapter pages for the given chapter ID.
 		FindChapterPages(id string) ([]*ChapterPage, error)
+		// GetSettings returns the provider settings.
+		GetSettings() Settings
+	}
+
+	Settings struct {
+		ChapterFilters []ChapterFilter `json:"chapterFilters"`
+		Languages      []SelectOption  `json:"languages,omitempty"`
+		Groups         []SelectOption  `json:"groups,omitempty"`
 	}
 
 	SearchOptions struct {
@@ -12,13 +35,20 @@ type (
 		// Year is the year the manga was released.
 		// It will be 0 if the year is not available.
 		Year int `json:"year"`
+		// Language requested by the user.
+		// It will be empty if the language is not available.
+		Language string `json:"language,omitempty"`
+		// Group requested by the user.
+		// It will be empty if the group is not available.
+		Group string `json:"group,omitempty"`
 	}
 
 	SearchResult struct {
-		// Provider is the ID of the provider.
-		// This should be the same as the extension ID and follow the same format.
+		// "ID" of the extension.
 		Provider string `json:"provider"`
-		// ID is the manga slug.
+		// Language of the manga.
+		// Leave it empty if the language is not available.
+		Language string `json:"language,omitempty"`
 		// It is used to fetch the chapter details.
 		// It can be a combination of keys separated by the $ delimiter.
 		ID string `json:"id"`
@@ -26,13 +56,13 @@ type (
 		Title string `json:"title"`
 		// Synonyms are alternative titles for the manga.
 		Synonyms []string `json:"synonyms,omitempty"`
-		// Year is the year the manga was released.
+		// Year the manga was released.
 		Year int `json:"year,omitempty"`
-		// Image is the URL of the manga cover image.
+		// URL of the manga cover image.
 		Image string `json:"image,omitempty"`
-		// SearchRating shows how well the chapter title matches the search query.
+		// Indicates how well the chapter title matches the search query.
 		// It is a number from 0 to 1.
-		// Leave it empty if the comparison should be done by the server.
+		// Leave it empty if the comparison should be done by Seanime.
 		SearchRating float64 `json:"searchRating,omitempty"`
 	}
 
@@ -45,16 +75,19 @@ type (
 		// It can be a combination of keys separated by the $ delimiter.
 		// e.g., "10010$one-piece-1", where "10010" is the manga ID and "one-piece-1" is the chapter slug that is reconstructed to "%url/10010/one-piece-1".
 		ID string `json:"id"`
-		// URL is the chapter page URL.
+		// Language of the chapter.
+		// Leave it empty if the language is not available.
+		Language string `json:"language,omitempty"`
+		// The chapter page URL.
 		URL string `json:"url"`
-		// Title is the chapter title.
-		// It should start with "Chapter X" or "Chapter X.Y" where X is the chapter number and Y is the subchapter number.
+		// The chapter title.
+		// It should be in this format: "Chapter X.Y - {title}" where X is the chapter number and Y is the subchapter number.
 		Title string `json:"title"`
 		// e.g., "1", "1.5", "2", "3"
 		Chapter string `json:"chapter"`
 		// From 0 to n
 		Index uint `json:"index"`
-		// Rating is the rating of the chapter. It is a number from 0 to 100.
+		// The rating of the chapter. It is a number from 0 to 100.
 		// Leave it empty if the rating is not available.
 		Rating int `json:"rating,omitempty"`
 		// UpdatedAt is the date when the chapter was last updated.
