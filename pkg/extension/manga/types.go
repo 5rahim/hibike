@@ -85,10 +85,14 @@ type (
 		// It is used to fetch the chapter pages.
 		// It can be a combination of keys separated by the $ delimiter.
 		// e.g., "10010$one-piece-1", where "10010" is the manga ID and "one-piece-1" is the chapter slug that is reconstructed to "%url/10010/one-piece-1".
+		// It can also include additional info like the language and group. e.g., "10010$one-piece-1$en$group1".
 		ID string `json:"id"`
 		// Language of the chapter.
 		// Leave it empty if the language is not available.
 		Language string `json:"language,omitempty"`
+		// Group of the chapter.
+		// Leave it empty if the group is not available.
+		Group string `json:"group,omitempty"`
 		// The chapter page URL.
 		URL string `json:"url"`
 		// The chapter title.
