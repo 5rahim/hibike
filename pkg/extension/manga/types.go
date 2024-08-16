@@ -17,7 +17,7 @@ type (
 		// Search returns the search results for the given query.
 		Search(opts SearchOptions) ([]*SearchResult, error)
 		// FindChapters returns the chapter details for the given manga ID.
-		FindChapters(id string) ([]*ChapterDetails, error)
+		FindChapters(opts FindChapterOptions) ([]*ChapterDetails, error)
 		// FindChapterPages returns the chapter pages for the given chapter ID.
 		FindChapterPages(id string) ([]*ChapterPage, error)
 		// GetSettings returns the provider settings.
@@ -64,6 +64,17 @@ type (
 		// It is a number from 0 to 1.
 		// Leave it empty if the comparison should be done by Seanime.
 		SearchRating float64 `json:"searchRating,omitempty"`
+	}
+
+	FindChapterOptions struct {
+		// ID is the manga slug.
+		ID string `json:"id"`
+		// Language of the manga.
+		// Will be empty if the language is not available.
+		Language string `json:"language,omitempty"`
+		// Group of the manga.
+		// Will be empty if the group is not available.
+		Group string `json:"group,omitempty"`
 	}
 
 	ChapterDetails struct {
