@@ -17,17 +17,9 @@ type (
 		// Search returns the search results for the given query.
 		Search(opts SearchOptions) ([]*SearchResult, error)
 		// FindChapters returns the chapter details for the given manga ID.
-		FindChapters(opts FindChapterOptions) ([]*ChapterDetails, error)
+		FindChapters(id string) ([]*ChapterDetails, error)
 		// FindChapterPages returns the chapter pages for the given chapter ID.
 		FindChapterPages(id string) ([]*ChapterPage, error)
-		// GetSettings returns the provider settings.
-		GetSettings() Settings
-	}
-
-	Settings struct {
-		ChapterFilters []ChapterFilter `json:"chapterFilters"`
-		Languages      []SelectOption  `json:"languages,omitempty"`
-		Groups         []SelectOption  `json:"groups,omitempty"`
 	}
 
 	SearchOptions struct {
@@ -35,12 +27,6 @@ type (
 		// Year is the year the manga was released.
 		// It will be 0 if the year is not available.
 		Year int `json:"year"`
-		// Language requested by the user.
-		// It will be empty if the language is not available.
-		Language string `json:"language,omitempty"`
-		// Group requested by the user.
-		// It will be empty if the group is not available.
-		Group string `json:"group,omitempty"`
 	}
 
 	SearchResult struct {
@@ -66,17 +52,6 @@ type (
 		SearchRating float64 `json:"searchRating,omitempty"`
 	}
 
-	FindChapterOptions struct {
-		// ID is the manga slug.
-		ID string `json:"id"`
-		// Language of the manga.
-		// Will be empty if the language is not available.
-		Language string `json:"language,omitempty"`
-		// Group of the manga.
-		// Will be empty if the group is not available.
-		Group string `json:"group,omitempty"`
-	}
-
 	ChapterDetails struct {
 		// ID of the provider.
 		// This should be the same as the extension ID and follow the same format.
@@ -87,12 +62,6 @@ type (
 		// e.g., "10010$one-piece-1", where "10010" is the manga ID and "one-piece-1" is the chapter slug that is reconstructed to "%url/10010/one-piece-1".
 		// It can also include additional info like the language and group. e.g., "10010$one-piece-1$en$group1".
 		ID string `json:"id"`
-		// Language of the chapter.
-		// Leave it empty if the language is not available.
-		Language string `json:"language,omitempty"`
-		// Group of the chapter.
-		// Leave it empty if the group is not available.
-		Group string `json:"group,omitempty"`
 		// The chapter page URL.
 		URL string `json:"url"`
 		// The chapter title.
