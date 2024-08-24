@@ -53,8 +53,7 @@ type (
 	}
 
 	ChapterDetails struct {
-		// ID of the provider.
-		// This should be the same as the extension ID and follow the same format.
+		// "ID" of the extension.
 		Provider string `json:"provider"`
 		// ID is the chapter slug.
 		// It is used to fetch the chapter pages.
