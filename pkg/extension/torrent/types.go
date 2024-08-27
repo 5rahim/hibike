@@ -88,14 +88,14 @@ type (
 
 	// AnimeSearchOptions represents the options to search for torrents without filters.
 	AnimeSearchOptions struct {
-		// The media object.
-		Media Media
+		// The media object provided by Seanime.
+		Media Media `json:"media"`
 		// The user search query.
 		Query string `json:"query"`
 	}
 
 	AnimeSmartSearchOptions struct {
-		// The media object.
+		// The media object provided by Seanime.
 		Media Media `json:"media"`
 		// The user search query.
 		// This will be empty if your extension does not support custom queries.
@@ -111,9 +111,9 @@ type (
 		// e.g. "1080", "720"
 		Resolution string `json:"resolution"`
 		// AniDB Anime ID of the media.
-		AniDbAID int `json:"aniDbAID"`
+		AnidbAID int `json:"anidbAID"`
 		// AniDB Episode ID of the media.
-		AniDbEID int `json:"aniDbEID"`
+		AnidbEID int `json:"anidbEID"`
 		// Indicates whether the user wants to search for the best releases.
 		// This will be false if your extension does not support filtering by best releases.
 		BestReleases bool `json:"bestReleases"`
