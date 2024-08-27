@@ -1,7 +1,5 @@
 package manga
 
-import "github.com/5rahim/hibike/pkg/extension"
-
 type (
 	Provider interface {
 		// Search returns the search results for the given query.
@@ -15,17 +13,8 @@ type (
 	}
 
 	Settings struct {
-		SupportsMultiGroup    bool `json:"supportsMultiGroup"`
-		SupportsMultiLanguage bool `json:"supportsMultiLanguage"`
-		// Groups (or Scanlators) supported by the extension.
-		// The one selected by the user will be passed to [Provider.Search].
-		// The default group should be the first option.
-		Groups []extension.SelectOption `json:"groups,omitempty"`
-		// Languages supported by the extension.
-		// The one selected by the user will be passed to [Provider.Search].
-		// Leave it empty if the extension does not support languages.
-		// The default language should be the first option.
-		Languages []extension.SelectOption `json:"languages,omitempty"`
+		SupportsMultiScanlator bool `json:"supportsMultiScanlator"`
+		SupportsMultiLanguage  bool `json:"supportsMultiLanguage"`
 	}
 
 	SearchOptions struct {
@@ -33,22 +22,13 @@ type (
 		// Year is the year the manga was released.
 		// It will be 0 if the year is not available.
 		Year int `json:"year"`
-		// Language selected by the user.
-		Language string `json:"language"`
-		// Group selected by the user.
-		Group string `json:"group"`
 	}
 
 	SearchResult struct {
 		// "ID" of the extension.
 		Provider string `json:"provider"`
-		// Language of the manga.
-		// Leave it empty if the language is not available.
-		Language string `json:"language,omitempty"`
-		// It is used to fetch the chapter details.
+		// ID of the manga, used to fetch the chapter details.
 		// It can be a combination of keys separated by a delimiter. (Delimiters should not be slashes).
-		//	If the extension supports multiple languages, the language key should be included. (e.g., "one-piece$en").
-		//	If the extension supports multiple groups, the group key should be included. (e.g., "one-piece$group-1").
 		ID string `json:"id"`
 		// The title of the manga.
 		Title string `json:"title"`
@@ -70,8 +50,8 @@ type (
 		Provider string `json:"provider"`
 		// ID of the chapter, used to fetch the chapter pages.
 		// It can be a combination of keys separated by a delimiter. (Delimiters should not be slashes).
-		//	If the extension supports multiple languages, the language key should be included. (e.g., "one-piece-001$chapter-1$en").
-		//	If the extension supports multiple groups, the group key should be included. (e.g., "one-piece-001$chapter-1$group-1").
+		//	If the same ID has multiple languages, the language key should be included. (e.g., "one-piece-001$chapter-1$en").
+		//	If the same ID has multiple scanlators, the group key should be included. (e.g., "one-piece-001$chapter-1$group-1").
 		ID string `json:"id"`
 		// The chapter page URL.
 		URL string `json:"url"`
@@ -82,6 +62,12 @@ type (
 		Chapter string `json:"chapter"`
 		// From 0 to n
 		Index uint `json:"index"`
+		// The scanlator that translated the chapter.
+		// Leave it empty if your extension does not support multiple scanlators.
+		Scanlator string `json:"scanlator,omitempty"`
+		// The language of the chapter.
+		// Leave it empty if your extension does not support multiple languages.
+		Language string `json:"language,omitempty"`
 		// The rating of the chapter. It is a number from 0 to 100.
 		// Leave it empty if the rating is not available.
 		Rating int `json:"rating,omitempty"`
