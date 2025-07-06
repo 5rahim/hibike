@@ -1,0 +1,29 @@
+{
+  "id": "a",
+  "title": "Announcement Title",
+  "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "date": "2023-10-01T12:00:00Z",
+  "dismissable": true,
+  "type": "dialog",
+  "severity": "info",
+  "conditions": {
+    "version": ">=1.0.0",
+    "os": [
+      "windows",
+      "darwin",
+      "linux"
+    ],
+    "platform": [
+      "tauri",
+      "web",
+      "denshi"
+    ]
+  },
+  "actions": [
+    {
+      "type": "link",
+      "label": "Learn More",
+      "url": "https://seanime.app/"
+    }
+  ]
+}
