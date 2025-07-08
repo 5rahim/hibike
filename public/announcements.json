@@ -2,7 +2,7 @@
   {
     "id": "test2",
     "title": "The one piece is real!",
-    "content": "Click the link below to learn more about ligma.",
+    "message": "Click the link below to learn more about ligma.",
     "date": "2023-10-01T12:00:00Z",
     "dismissable": true,
     "type": "toast",
