@@ -1,9 +1,1 @@
-[
-  {
-    "id": "anilist-down-6-8-2025",
-    "title": "Anilist is temporarily down",
-    "message": "The app will not work outside of offline mode. Reminder that only series you've saved will be available in offline mode. Please be patient while the Anilist team works on restoring the service.",
-    "severity": "warning",
-    "type": "banner"
-  }
-]
+[]
