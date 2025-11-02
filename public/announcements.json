@@ -1,6 +1,6 @@
 [
   {
-    "id": "seanime-desktop-deprecated-2",
+    "id": "seanime-desktop-deprecated-3",
     "title": "Seanime Desktop is now deprecated.",
     "message": "Please download the new desktop client (Seanime Denshi) at https://seanime.app/download to upgrade to v3",
     "severity": "warning",
