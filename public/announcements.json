@@ -8,7 +8,6 @@
     "conditions": {
       "versionConstraint": "<3.0.0"
     },
-    "notDismissible": true,
     "platform": [
       "tauri"
     ]
